@@ -91,7 +91,7 @@ export const Signup = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" fullWidth sx={{ mt: 2 }}>
+            <Button variant="contained" fullWidth sx={{ mt: 2, backgroundColor: 'skyblue' }}>
               Submit
             </Button>
           </Grid>

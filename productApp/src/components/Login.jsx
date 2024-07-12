@@ -1,8 +1,14 @@
 import React from 'react';
 import { Box, Button, Link, TextField, Typography, Grid, Paper } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
 
 const Login = () => {
+  const navigate = useNavigate();
+
+  const handleSignup = () => {
+    navigate('/signup');
+  };
   return (
     <div > 
      
@@ -41,6 +47,7 @@ const Login = () => {
               variant="outlined"
               
             />
+            <br></br>
            <Link  >
           <Button color="inherit" style={{color: 'black',fontWeight: 'bold', backgroundColor: 'skyblue', marginLeft:'5px'}}>login</Button>
           </Link>
@@ -48,10 +55,10 @@ const Login = () => {
           <p style={{ marginBottom: '2px' }}>
              Don't have an account in Libra?
           </p>
-          <Link to='/Signup' >
+          
          
-          <Button color="inherit" style={{ alignSelf: 'left', fontSize: '10px', color: 'blue', marginTop: '0', padding: '5px 10px' ,textDecoration:'underlined'}}>Create account</Button>
-          </Link>
+          <Button color="inherit" onClick={handleSignup} style={{ alignSelf: 'left', fontSize: '10px', color: 'brown', marginTop: '0', padding: '5px 10px' ,textDecoration:'underlined'}}>Create account</Button>
+          
           </div>
       </Paper>
     </Box>
