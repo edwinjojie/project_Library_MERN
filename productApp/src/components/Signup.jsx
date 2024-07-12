@@ -1,6 +1,5 @@
-import React from 'react';
+import React from 'react'
 import { Box, Button, Link, TextField, Typography, Grid, Paper } from '@mui/material';
-
 export const Signup = () => {
   return (
     <Box
@@ -11,14 +10,17 @@ export const Signup = () => {
         justifyContent: 'center',
         alignItems: 'flex-start',
         height: '100vh',
-       //backgroundColor: '#f5f5f5',
+        //backgroundImage: 'url("https://images.unsplash.com/photo-1481627834876-b7833e8f5570?fm=jpg&w=3000&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bGlicmFyeXxlbnwwfHwwfHx8MA%3D%3D")', // Add your image URL here
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
         //p: 2,
         mt: 5,
       }}
       noValidate
       autoComplete="off"
     >
-      <Paper elevation={3} sx={{ p: 2, borderRadius: 2, maxWidth: 500 }}>
+      <Paper elevation={3} sx={{ p: 2, borderRadius: 2, maxWidth: 500, marginTop:'20px' }}>
         <Typography sx={{ fontSize: 36, fontWeight: 'bold', color: 'black', textAlign: 'center' }} gutterBottom>
           Sign Up
         </Typography>
@@ -83,20 +85,20 @@ export const Signup = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography variant="body2" sx={{ mt: 2 }}>
+            <Typography variant="body2" sx={{ mt: 2}}>
               By clicking submit, you agree to the{' '}
-              <Link href="https://librarypass.com/terms-conditions/" underline="hover">
+              <Link href="https://librarypass.com/terms-conditions/" underline="hover" sx={{color: '#654321'}} >
                 terms and conditions
               </Link>.
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Button variant="contained" fullWidth sx={{ mt: 2, backgroundColor: 'skyblue' }}>
+            <Button color="inherit" style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#654321'}} fullWidth>
               Submit
             </Button>
           </Grid>
         </Grid>
       </Paper>
     </Box>
-  );
-};
+  )
+}
