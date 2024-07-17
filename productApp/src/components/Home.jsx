@@ -93,19 +93,19 @@ export const Home = () => {
     
       return (
         
-        <Grid container spacing={2} sx={{marginTop:'10px'}}>
+        <Grid container spacing={2} sx={{marginTop:'3%'}}>
           {books.map((book) => (
-            <Grid item xs={12} sm={6} md={4} key={book.id}>
-              <Card sx={{ minWidth: 275, marginBottom: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '150',width:'50' }}>
+            <Grid item xs={12} sm={6} md={4} key={book.id} >
+              <Card sx={{ minWidth: 275, marginBottom: 2, display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '150',width:'50',borderRadius:5 }}>
                 <CardContent>
-                  <img src={book.imgSrc} alt={book.title} width={"100"} height={"150"} />
-                  <Typography variant="h5" component="div">
+                  <img src={book.imgSrc} alt={book.title} width={"250"} height={"300"} />
+                  <Typography variant="h4" component="div" >
                     {book.title}
                   </Typography>
-                  <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+                  <Typography sx={{ fontSize: 17 }}  color="text.secondary" gutterBottom>
                     {book.author}
                   </Typography>
-                  <Typography sx={{ mb: 1.5 }} color="text.secondary" >
+                  <Typography sx={{ mb: 1.5 }} align='left' color="text.secondary" >
                    Rating: {book.rating}
                  </Typography>
                 </CardContent>

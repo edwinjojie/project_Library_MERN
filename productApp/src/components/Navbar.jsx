@@ -5,14 +5,14 @@ import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
   const navigate = useNavigate();
-
+  //function to route to login after signing up
   const handleSignup = () => {
     navigate('/login');
   };
 
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" sx={{ backgroundColor: '#654321' }}>
+    <Box sx={{ flexGrow: 1 }} >
+      <AppBar position="absolute" sx={{ backgroundColor:' #4B2E2E', color: '#FFFFFF' }}>
         <Toolbar>
           <IconButton
             size="large"
