@@ -1,6 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Box, Button, Link, TextField, Typography, Grid, Paper } from '@mui/material';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 export const Signup = () => {
+  const [form,setForm]=useState({
+    user_name:'',
+    user_id:'',
+    user_password:'',
+    user_email:'',
+    user_place:'',
+    user_age:'',
+    user_phno:'',
+    user_gender:'',
+    user_type:'user'
+  })
+  const handleChange=(e)=>{
+    setForm({...form,
+      [e.target.name]:e.target.value
+  });
+  console.log(form);
+  };
+  const navigate=useNavigate();
+  const handleSubmit =async(e)=>{
+    e.preventDefault();
+    try{
+      const res= await axios.post('http://localhost:4000/adduser',form);
+      console.log(res.data);
+      alert('Successfully signed up');
+      navigate('/login');
+    }
+    catch(e){
+      alert('error occured in signing up');
+      console.log(e);
+    }
+  };
   return (
     <Box
       component="form"
@@ -27,62 +60,88 @@ export const Signup = () => {
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              id="outlined-required"
+              id="user_name"
               label="Name"
               variant="outlined"
+              name="user_name"
+              value={form.user_name}
+              onChange={handleChange}
               //fullWidth
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              id="outlined-required"
-              label="Place"
-              variant="outlined"
-              
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="outlined-required"
-              label="Age"
-              variant="outlined"
-              
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="outlined-required"
-              label="Phone number"
-              variant="outlined"
-              
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              id="outlined-required"
+              id="user_id"
               label="Username"
               variant="outlined"
-              
+              name="user_id"
+              value={form.user_id}
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <TextField
-              id="outlined-password-input"
-              label="Password"
+              id="user_password"
               type="password"
+              label="Password"
               variant="outlined"
-             
-              autoComplete="current-password"
+              name="user_password"
+              value={form.user_password}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="user_email"
+              label=" Email ID"
+              variant="outlined"
+              name="user_email"
+              value={form.user_email}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            <TextField
+              id="user_place"
+              label="Place"
+              variant="outlined"
+              name="user_place"
+              value={form.user_place}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12} sm={6} >
+            <TextField
+              id="user_age"
+              label="Age"
+              variant="outlined"
+              name="user_age"
+              value={form.user_age}
+              onChange={handleChange}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              id="outlined-password-input"
-              label="Email id"
-              
+              id="user_phno"
+              label="Phone number"
               variant="outlined"
-              
+              name="user_phno"
+              value={form.user_phno}
+              onChange={handleChange}
             />
+          </Grid>
+          <div>
+               
+            </div>
+          <Grid item xs={12} sm={6}>
+          <label style={{fontSize:20 ,color:'gray'}}>Gender:</label>
+                <select name="user_gender"  onChange={handleChange} required>
+                    <option value="">Select Gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="others">Prefer not to say</option>
+                </select>
+            
           </Grid>
           <Grid item xs={12}>
             <Typography variant="body2" sx={{ mt: 2}}>
@@ -93,7 +152,7 @@ export const Signup = () => {
             </Typography>
           </Grid>
           <Grid item xs={12}>
-            <Button color="inherit" style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#654321'}} fullWidth>
+            <Button color="inherit" style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#654321'} } onClick={handleSubmit} fullWidth>
               Submit
             </Button>
           </Grid>

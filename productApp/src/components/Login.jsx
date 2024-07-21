@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { Box, Button, Link, TextField, Typography, Grid, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useAuth } from '../authcontext';
 
 
 const Login = () => {
   const navigate = useNavigate();
-
+  const {login}=useAuth();
   const handleSignup = () => {
     navigate('/signup');
   };
@@ -27,16 +28,17 @@ const Login = () => {
   };
   //when login button is pressed
   const handleLogin=(e)=>{
-    axios.post("http://localhost:4000/loginuser",form).then(()=>{
-      console.log('2');
-    }).then((res)=>{
+    //console.log(form);
+    axios.post("http://localhost:4000/loginuser",form).then((res)=>{
       alert('login successfull');
-      console.log(res.data.user);
+      console.log(res.data);
+      //updating the auth file
+      login(res.data);
       //use navigate function to dashboard here,afterward
-      //.....
+      navigate('/')
     })
     .catch((error)=>{
-      alert(error.response.data);
+      alert(error.response);
       console.error(error);
     }); 
   };
