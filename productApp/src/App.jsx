@@ -10,6 +10,7 @@ import Navbar from './components/Navbar'
 import BookDetail from './components/bookdetail'
 import Profile from './components/UserProfile'
 import { Update } from './components/UpdateUser'
+import Arentedbook from './components/Arentedbook'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -24,6 +25,7 @@ function App() {
       <Route path="/book/:uniqueId" element={<BookDetail/>}></Route>
       <Route path='/user' element={<Profile/>}></Route>
       <Route path='/updateuser' element={<Update/>}></Route>
+      <Route path="/rentedbooks" element={<Arentedbook />} />
       </Routes>
       
     </>

@@ -19,6 +19,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     setDrawerOpen(false);
+    navigate('/');
   };
 
   const drawerContent = (
@@ -34,7 +35,7 @@ const Navbar = () => {
       </Box>
       <Divider />
       <List sx={{ flexGrow: 1, mt: 2 }}>
-        {user?.role === 'admin' ? (
+        {user?.user_type === 'Admin' ? (
           <>
             <ListItem button component={Link} to="/add-book">
               <ListItemIcon>
@@ -48,11 +49,23 @@ const Navbar = () => {
               </ListItemIcon>
               <ListItemText primary="Users" />
             </ListItem>
-            <ListItem button component={Link} to="/add-user">
+            {/* <ListItem button component={Link} to="/add-user">
               <ListItemIcon>
                 <PersonAddIcon />
               </ListItemIcon>
               <ListItemText primary="Add User" />
+            </ListItem> */}
+            <ListItem button component={Link} to="/rentedbooks">
+              <ListItemIcon>
+                <BookIcon />
+              </ListItemIcon>
+              <ListItemText primary="Rented Books" />
+            </ListItem>
+            <ListItem button component={Link} to="/user">
+              <ListItemIcon>
+                <AccountCircle />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
             </ListItem>
           </>
         ) : (
@@ -125,6 +138,7 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
 // import React, { useState } from 'react';
 // import { AppBar, Box, IconButton, Toolbar, Typography, Button } from '@mui/material';
 // import { AccountCircle, Menu as MenuIcon } from '@mui/icons-material';

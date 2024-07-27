@@ -11,6 +11,7 @@ app.use(cors());//for handling  cross origin reqsts
 //importing code for DB connection
 require('./connection');
 //const PORT=4000;
+let rentedBooks = {};
 //get all users
 app.get('/users',async(req,res)=>{
   try{
@@ -150,6 +151,71 @@ app.delete('/removebook/:id',async(req,res)=>{
     res.send('error in deletion')
   }
 });
+// rent book
+app.post('/rentbook/:uniqueId', async (req, res) => {
+  try {
+    const { uniqueId } = req.params;
+    const { userId } = req.body;
+    const book = await bookschema.findOne({ uniqueId });
+
+    if (!book) {
+      return res.status(404).send('Book not found');
+    }
+    if (!book.available) {
+      return res.status(400).send('Book is already rented');
+    }
+
+    book.available = false;
+    await book.save();
+    rentedBooks[uniqueId] = userId;
+
+    res.send('Book rented successfully');
+  } catch (error) {
+    res.status(500).send('Error renting book: ' + error.message);
+  }
+});
+
+// Retrieve a book
+app.post('/retrievebook/:uniqueId', async (req, res) => {
+  try {
+    const { uniqueId } = req.params;
+    const book = await bookschema.findOne({ uniqueId });
+
+    if (!book) {
+      return res.status(404).send('Book not found');
+    }
+    if (book.available) {
+      return res.status(400).send('Book is already available');
+    }
+
+    book.available = true;
+    await book.save();
+    delete rentedBooks[uniqueId];
+
+    res.send('Book retrieved successfully');
+  } catch (error) {
+    res.status(500).send('Error retrieving book: ' + error.message);
+  }
+});
+
+
+// Get all rented books with user details
+app.get('/rentedbooks', async (req, res) => {
+  try {
+    const books = await bookschema.find({ available: false });
+    const rentedBooksWithUsers = await Promise.all(
+      books.map(async (book) => {
+        // Fetch user details using the receiver's email
+        const user = await userschema.findOne({ user_email: book.reciever });
+        return { book, user };
+      })
+    );
+    res.send(rentedBooksWithUsers);
+  } catch (error) {
+    res.status(500).send('Error fetching rented books: ' + error.message);
+  }
+});
+
 //port initializing
 app.listen(4000,()=>{
   console.log('server is running on port 4000');
