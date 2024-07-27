@@ -25,9 +25,8 @@ app.get('/users',async(req,res)=>{
 //login
 app.post('/loginuser',async(req,res)=>{
   try{
-    console.log('e');
     const{identifier,password}=req.body;//identifier is either email or username
-    console.log(password);
+   
     const user = await userschema.findOne({$or:[{user_id:identifier},{user_email:identifier}]})//$or is similiar to ||,but we cant use || directly in json
     if (!identifier || !password) {
       return res.status(400).send(' Username/email and password are required');
@@ -46,11 +45,11 @@ app.post('/loginuser',async(req,res)=>{
 //get details by username or email
 app.get('/user/:identifier',async(req,res)=>{
   try{
-    console.log(req.params);
     const {identifier}= req.params;
     const data=await userschema.findOne({user_id:identifier});//data contain all the records of one users
+    console.log(data);
     if(!data){
-      await userschema.findOne({user_email:identifier});
+      data = await userschema.findOne({user_email:identifier});
     }
     if (!data) {
       return res.status(404).send('User not found');
@@ -77,13 +76,13 @@ app.post('/adduser',async(req,res)=>{
 //put method(updating)
 app.put('/updateuser/:id',async(req,res)=>{
   try {
-    await userschema.findByIdAndUpdate(req.params.id,req.body);
-    res.send('succesfully updated');
+    const data = await userschema.findByIdAndUpdate(req.params.id,req.body);
+    res.send(data);
   } catch (error) {
     res.send('error in updation');
   }
 });
-//deleting method
+//deleting user
 app.delete('/removeuser/:id',async(req,res)=>{
   try{
     await userschema.findByIdAndDelete(req.params.id);
@@ -108,12 +107,10 @@ app.get('/books',async(req,res)=>{
 app.get('/book/:uniqueId',async(req,res)=>{
   try{
     const {uniqueId}=req.params;
-    console.log('ee')
     const data=await bookschema.findOne({uniqueId:uniqueId});//data contain all the records of one book
     if (!data) {
        return res.status(404).send('book not found');
       }
-      console.log(data);
     res.send(data);  
     }
   catch(error){
@@ -132,6 +129,25 @@ app.post('/addbook',async(req,res)=>{
   } catch (error) {
     console.log(error);
     res.send(error);
+  }
+});
+//updating book
+app.put('/updatebook/:id',async(req,res)=>{
+  try {
+    const data= await bookschema.findByIdAndUpdate(req.params.id,req.body);
+    res.send(data);
+  } catch (error) {
+    console.log(error);
+    res.send(error);
+  }
+});
+//deleting book
+app.delete('/removebook/:id',async(req,res)=>{
+  try{
+    await bookschema.findByIdAndDelete(req.params.id);
+    res.send('successfully deleted');
+  }catch(e){
+    res.send('error in deletion')
   }
 });
 //port initializing

@@ -34,5 +34,10 @@ const bookSchema = mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  reciever:{
+    type:String,
+    default:''
+    }
+
 })
 module.exports = mongoose.model('book',bookSchema);

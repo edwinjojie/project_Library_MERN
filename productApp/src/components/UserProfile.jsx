@@ -11,38 +11,40 @@ const UserProfile = () => {
        <Typography>Loading...</Typography>
       };
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh', p: 2 }}>
-        <Card sx={{ maxWidth: 600, width: '100%' }}>
+        <Card  sx={{ maxWidth: 600, width: '100%', padding:'10px 10px', opacity:1}}>
           <CardContent>
-            <Typography variant="h4" sx={{ mb: 2 }}>User Details</Typography>
-            <Grid container spacing={2}>
+          <Typography variant="h4" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Georgia' }}>⁘ User Details ⁘</Typography>            <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Typography variant="h6">Name: {user.user_name}</Typography>
+              <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>Name: {user.user_name}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1">User ID: {user.user_id}</Typography>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>User ID: {user.user_id}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1">Email: {user.user_email}</Typography>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>User password: {user.user_password}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1">Place: {user.user_place}</Typography>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>Email: {user.user_email}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1">Age: {user.user_age}</Typography>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>Place: {user.user_place}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1">Phone Number: {user.user_phno}</Typography>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>Age: {user.user_age}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1">Gender: {user.user_gender}</Typography>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>Phone Number: {user.user_phno}</Typography>
               </Grid>
               <Grid item xs={12}>
-                <Typography variant="body1">Type: {user.user_type}</Typography>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>Gender: {user.user_gender}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5" style={{color: '#3B5323'}} sx={{ mt: 1, fontFamily:'Garamond' }}>Type: {user.user_type}</Typography>
               </Grid>
             </Grid>
           </CardContent>
           <Link to='/updateuser'>
-          <button  style={{color:'white', backgroundColor:'brown'}}>update</button></Link>
+          <button  style={{color:'white', backgroundColor:'#E97451', fontFamily:'Garamond'}}>Update</button></Link>
         </Card>
 
       </Box>
