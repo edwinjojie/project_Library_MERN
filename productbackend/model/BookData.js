@@ -37,7 +37,12 @@ const bookSchema = mongoose.Schema({
   reciever:{
     type:String,
     default:''
-    }
+    },
+    summary:{
+      type:String,
+      default:''
+      } ,
+    likes: { type: Number, default: 0 }
 
 })
 module.exports = mongoose.model('book',bookSchema);

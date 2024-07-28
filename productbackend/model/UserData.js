@@ -17,7 +17,7 @@ const userSchema=mongoose.Schema(
     },
     user_type:{
       type:String,
-      enum:['Admin','user']
+      enum:['Admin','user','blocked']
     }
   }
 );

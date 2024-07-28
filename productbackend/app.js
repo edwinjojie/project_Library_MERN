@@ -108,6 +108,7 @@ app.get('/books',async(req,res)=>{
 app.get('/book/:uniqueId',async(req,res)=>{
   try{
     const {uniqueId}=req.params;
+    console.log(uniqueId);
     const data=await bookschema.findOne({uniqueId:uniqueId});//data contain all the records of one book
     if (!data) {
        return res.status(404).send('book not found');
@@ -202,17 +203,47 @@ app.post('/retrievebook/:uniqueId', async (req, res) => {
 // Get all rented books with user details
 app.get('/rentedbooks', async (req, res) => {
   try {
+    // Find books that are not available (rented)
     const books = await bookschema.find({ available: false });
+    console.log(books);
+    // If no books are found, send an empty array immediately
+    if (books.length === 0) {
+      return res.send([]);
+    }
+
+    // Fetch user details for each rented book using the receiver's email
     const rentedBooksWithUsers = await Promise.all(
       books.map(async (book) => {
-        // Fetch user details using the receiver's email
         const user = await userschema.findOne({ user_email: book.reciever });
         return { book, user };
       })
     );
+
+    // Send the fetched rented books along with user details
     res.send(rentedBooksWithUsers);
   } catch (error) {
+    // Log the error and send a response with status 500
+    console.error('Error fetching rented books:', error);
     res.status(500).send('Error fetching rented books: ' + error.message);
+  }
+});
+// Like a book
+app.post('/book/:uniqueId/like', async (req, res) => {
+  try {
+    const { uniqueId } = req.params;
+   // const book = await bookschema.findById(uniqueId);
+
+    if (!book) {
+      return res.status(404).send('Book not found');
+    }
+
+    book.likes += 1;
+    await book.save();
+
+    res.send(book);
+  } catch (error) {
+    console.log(error);
+    res.status(500).send('Error liking book: ' + error.message);
   }
 });
 

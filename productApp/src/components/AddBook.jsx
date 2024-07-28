@@ -11,7 +11,9 @@ export const AddBook = () => {
     genre: '',
     isbn: '',
     imageUrl: '',
-    available: true
+    available: true,
+    summary:'',
+    likes:0
   });
 
   const handleChange = (e) => {
@@ -126,6 +128,16 @@ export const AddBook = () => {
               variant="outlined"
               name="imageUrl"
               value={form.imageUrl}
+              onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              id="summary"
+              label="Summary"
+              variant="outlined"
+              name="summary"
+              value={form.summary}
               onChange={handleChange}
             />
           </Grid>
