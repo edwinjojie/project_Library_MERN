@@ -23,6 +23,19 @@ app.get('/users',async(req,res)=>{
     console.error();
   }
 });
+app.get('/user/id/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const data = await userschema.findById(id);
+    if (!data) {
+      return res.status(404).send('User not found');
+    }
+    res.send(data);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('Error fetching user details');
+  }
+});
 //login
 app.post('/loginuser',async(req,res)=>{
   try{
@@ -231,7 +244,7 @@ app.get('/rentedbooks', async (req, res) => {
 app.post('/book/:uniqueId/like', async (req, res) => {
   try {
     const { uniqueId } = req.params;
-   // const book = await bookschema.findById(uniqueId);
+    const book = await bookschema.findOne({ uniqueId });
 
     if (!book) {
       return res.status(404).send('Book not found');
@@ -246,7 +259,6 @@ app.post('/book/:uniqueId/like', async (req, res) => {
     res.status(500).send('Error liking book: ' + error.message);
   }
 });
-
 //port initializing
 app.listen(4000,()=>{
   console.log('server is running on port 4000');

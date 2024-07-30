@@ -5,9 +5,9 @@ import { Box, Typography, Card, CardContent, CardMedia, Button, IconButton } fro
 import { Favorite } from '@mui/icons-material'; // Import Favorite icon
 import { useAuth } from '../authcontext';
 
-const bookdetail = () => {
+const BookDetail = () => {
   const { uniqueId } = useParams();
-  const [book, setBook] = useState();
+  const [book, setBook] = useState(null); // Initialize book state as null
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -76,7 +76,7 @@ const bookdetail = () => {
       console.log(response);
       navigate("/");
     } catch (error) {
-      console.log('Error fetching book:', error);
+      console.log('Error deleting book:', error);
     }
   };
 
@@ -130,22 +130,24 @@ const bookdetail = () => {
           <Typography variant="body1" style={{ color: '#3B5323', fontFamily: 'Garamond', fontWeight: 'bold' }} sx={{ mt: 1 }}>{book.available ? 'Available' : 'Not Available'}</Typography>
           <Typography variant="body1" style={{ color: '#3B5323', fontFamily: 'Garamond', fontWeight: 'bold' }} sx={{ mt: 1 }}>Likes: {book.likes}</Typography>
           
-          {user && (user.user_type !== 'Admin') && (
-            <IconButton onClick={handleLike}>
-            <Favorite style={{ color: 'red' }} />
-          </IconButton>)&&
-            (<Box sx={{ display: 'flex', gap: 2 }}>
-              <Button variant="contained" onClick={handleRent} style={{ backgroundColor: "#E97451", color: 'white', fontFamily: 'Garamond', fontWeight: 'bold' }} sx={{ mt: 2 }}>
-                Rent
-              </Button>
-            </Box>
+          {user && user.user_type !== 'Admin' && (
+            <>
+              <IconButton onClick={handleLike}>
+                <Favorite style={{ color: 'red' }} />
+              </IconButton>
+              <Box sx={{ display: 'flex', gap: 2 }}>
+                <Button variant="contained" onClick={handleRent} style={{ backgroundColor: "#E97451", color: 'white', fontFamily: 'Garamond', fontWeight: 'bold' }} sx={{ mt: 2 }}>
+                  Rent
+                </Button>
+              </Box>
+            </>
           )}
-          {user && (book.reciever === user.user_email) && (
+          {user && book.reciever === user.user_email && (
             <Button variant="contained" onClick={handleReturn} style={{ backgroundColor: "#E97451", color: 'white', fontFamily: 'Garamond', fontWeight: 'bold' }} sx={{ mt: 2 }}>
               Return
             </Button>
           )}
-          {user && (user.user_type === 'Admin') && (
+          {user && user.user_type === 'Admin' && (
             <>
               <Button variant="contained" onClick={handleDelete} style={{ backgroundColor: "#E97451", color: 'white', fontFamily: 'Garamond', fontWeight: 'bold' }} sx={{ mt: 2 }}>
                 Delete
@@ -165,4 +167,4 @@ const bookdetail = () => {
   );
 };
 
-export default bookdetail;
+export default BookDetail;

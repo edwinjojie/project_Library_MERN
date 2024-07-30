@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Box, Button, Link, TextField, Typography, Grid, Paper } from '@mui/material';
+import { Box, Button, TextField, Typography, Grid, Paper } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+
 export const AddBook = () => {
   const [form, setForm] = useState({
     uniqueId: '',
@@ -12,8 +13,8 @@ export const AddBook = () => {
     isbn: '',
     imageUrl: '',
     available: true,
-    summary:'',
-    likes:0
+    summary: '',
+    likes: 0
   });
 
   const handleChange = (e) => {
@@ -21,21 +22,22 @@ export const AddBook = () => {
       ...form,
       [e.target.name]: e.target.value
     });
-    console.log(form);
+    console.log(form); // Log the form data
   };
 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log('Form data to be submitted:', form); // Log the form data before submission
     try {
       const res = await axios.post('http://localhost:4000/addbook', form);
-      console.log(res.data);
+      console.log('Response from server:', res.data); // Log the server response
       alert('Successfully added the book');
-     // navigate('/books'); // Adjust the route as needed
+      navigate('/'); // Uncomment this line to navigate after successful submission
     } catch (e) {
       alert('Error occurred in adding the book');
-      console.log(e);
+      console.log('Error:', e); // Log the error
     }
   };
 
@@ -55,8 +57,9 @@ export const AddBook = () => {
       }}
       noValidate
       autoComplete="off"
+      onSubmit={handleSubmit} // Add onSubmit handler to the form
     >
-      <Paper elevation={3} sx={{ p: 2, borderRadius: 2, maxWidth: 600, marginTop: '20px' ,opacity:0.9}}>
+      <Paper elevation={3} sx={{ p: 2, borderRadius: 2, maxWidth: 600, marginTop: '20px', opacity: 0.9 }}>
         <Typography sx={{ fontSize: 36, fontWeight: 'bold', color: 'black', textAlign: 'center' }} gutterBottom>
           Add Book
         </Typography>
@@ -142,12 +145,12 @@ export const AddBook = () => {
             />
           </Grid>
           <Grid item xs={12}>
-            <Button color="inherit" style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#654321'}} onClick={handleSubmit} fullWidth>
+            <Button color="inherit" style={{ color: 'white', marginLeft: '5px', backgroundColor: '#654321' }} type="submit" fullWidth>
               Submit
             </Button>
           </Grid>
         </Grid>
       </Paper>
     </Box>
-  )
+  );
 }
