@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import { Box, Typography, Card, CardContent, CardMedia, Button, IconButton } from '@mui/material';
-import { Favorite } from '@mui/icons-material'; // Import Favorite icon
+import { Box, Typography, Card, CardContent, CardMedia, Button, IconButton, TextField } from '@mui/material';
+import { Favorite } from '@mui/icons-material';
 import { useAuth } from '../authcontext';
 
 const BookDetail = () => {
   const { uniqueId } = useParams();
-  const [book, setBook] = useState(null); // Initialize book state as null
+  const [book, setBook] = useState(null);
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState('');
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -21,7 +23,17 @@ const BookDetail = () => {
       }
     };
 
+    const fetchComments = async () => {
+      try {
+        const response = await axios.get(`http://localhost:4000/book/${uniqueId}/comments`);
+        setComments(response.data);
+      } catch (error) {
+        console.log('Error fetching comments:', error);
+      }
+    };
+
     fetchBook();
+    fetchComments();
   }, [uniqueId]);
 
   const handleLike = async () => {
@@ -33,16 +45,10 @@ const BookDetail = () => {
     }
   };
 
-  if (!book) {
-    return <Typography>Loading...</Typography>;
-  }
-
   const handleRent = async () => {
     if (book.available) {
       const updatedBook = { ...book, reciever: user.user_email, available: false };
       setBook(updatedBook);
-      console.log(updatedBook);
-  
       try {
         const response = await axios.put(`http://localhost:4000/updatebook/${book._id}`, updatedBook);
         console.log(response.data);
@@ -58,7 +64,6 @@ const BookDetail = () => {
     if (!book.available) {
       const updatedBook = { ...book, reciever: '', available: true };
       setBook(updatedBook);
-  
       try {
         const response = await axios.put(`http://localhost:4000/updatebook/${book._id}`, updatedBook);
         console.log(response.data);
@@ -89,9 +94,31 @@ const BookDetail = () => {
   };
 
   const handleUpdate = () => {
-    console.log(book._id);
-    navigate(`/updatebook/${book._id}`);
+    navigate(`/updatebook/${book._id}`, { state: { book } });
   };
+
+  const handleCommentChange = (event) => {
+    setNewComment(event.target.value);
+  };
+
+  const handleAddComment = async () => {
+    if (newComment.trim()) {
+      try {
+        const response = await axios.post(`http://localhost:4000/book/${uniqueId}/comment`, {
+          user_email: user.user_email,
+          text: newComment,
+        });
+        setComments([...comments, response.data]);
+        setNewComment('');
+      } catch (error) {
+        console.log('Error adding comment:', error);
+      }
+    }
+  };
+
+  if (!book) {
+    return <Typography>Loading...</Typography>;
+  }
 
   return (
     <Box sx={{ mt: 10, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
@@ -156,6 +183,33 @@ const BookDetail = () => {
                 Update
               </Button>
             </>
+          )}
+          {user && user.user_type !== 'Admin' && (
+            <Box sx={{ mt: 2 }}>
+              <Typography variant="h5" style={{ color: '#3B5323', fontFamily: 'Georgia', fontWeight: 'bold' }}>Comments</Typography>
+              {comments.map((comment, index) => (
+                <Typography key={index} variant="body1" style={{ fontFamily: 'Garamond', color: '#3B5323', fontWeight: 'bold' }} sx={{ mt: 1 }}>
+                  {comment.text} - <i>{comment.user_email}</i>
+                </Typography>
+              ))}
+              <TextField
+                fullWidth
+                multiline
+                rows={3}
+                value={newComment}
+                onChange={handleCommentChange}
+                placeholder="Add a comment"
+                sx={{ mt: 2 }}
+              />
+              <Button
+                variant="contained"
+                onClick={handleAddComment}
+                style={{ backgroundColor: "#E97451", color: 'white', fontFamily: 'Garamond', fontWeight: 'bold' }}
+                sx={{ mt: 2 }}
+              >
+                Post Comment
+              </Button>
+            </Box>
           )}
           <Typography variant="h5" style={{ color: '#3B5323', fontFamily: 'Georgia', fontWeight: 'bold' }} sx={{ mt: 2 }}>⁘ Summary ⁘</Typography>
           <Typography variant="body1" style={{ fontFamily: 'Garamond', color: '#3B5323', fontWeight: 'bold' }} sx={{ mt: 1 }}>

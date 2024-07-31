@@ -76,17 +76,26 @@ app.get('/user/:identifier',async(req,res)=>{
   }
 });
 //post user data
-app.post('/adduser',async(req,res)=>{
+app.post('/adduser', async (req, res) => {
   try {
-    var item = req.body;//not in order,in json ,make no sense to db
-    const data= new userschema(item);//in specified schema format
-    await data.save();
-    res.send(data);
+    const { user_email } = req.body;
+
+    // Check if the email already exists
+    const existingUser = await userschema.findOne({ user_email });
+    if (existingUser) {
+      return res.status(400).send('Email already in use');
+    }
+
+    // Create a new user if the email does not exist
+    const newUser = new userschema(req.body);
+    await newUser.save();
+    res.send(newUser);
   } catch (error) {
-    
-    res.send(error);
+    console.error(error);
+    res.status(500).send('Error occurred while signing up');
   }
 });
+
 //put method(updating)
 app.put('/updateuser/:id',async(req,res)=>{
   try {

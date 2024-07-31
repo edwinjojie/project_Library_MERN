@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: '#654321', // Brown color
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -116,14 +116,14 @@ const AllUsers = () => {
                 <StyledTableCell align="center">
                   <Button
                     variant="contained"
-                    style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#654321'}}
+                    style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#8B4513'}} // Brown color
                     onClick={() => handleToggleBlock(user._id, user.user_type)}
                   >
                     {user.user_type === 'blocked' ? 'Unblock' : 'Block'}
                   </Button>
                   <Button
                     variant="contained"
-                    color="inherit" style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#654321'} }
+                    color="inherit" style={{color: 'white', marginLeft:'5px' ,backgroundColor: '#8B4513'} } // Brown color
                     onClick={() => handleUpdateClick(user._id)}
                     sx={{ ml: 2 }}
                   >
@@ -179,4 +179,3 @@ const AllUsers = () => {
 };
 
 export default AllUsers;
-

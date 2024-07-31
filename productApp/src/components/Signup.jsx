@@ -21,19 +21,19 @@ export const Signup = () => {
   console.log(form);
   };
   const navigate=useNavigate();
-  const handleSubmit =async(e)=>{
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-      const res= await axios.post('http://localhost:4000/adduser',form);
+    try {
+      const res = await axios.post('http://localhost:4000/adduser', form);
       console.log(res.data);
       alert('Successfully signed up');
       navigate('/login');
-    }
-    catch(e){
-      alert('error occured in signing up');
-      console.log(e);
+    } catch (error) {
+      alert(error.response?.data || 'Error occurred in signing up');
+      console.log(error);
     }
   };
+  
   return (
     <Box
       component="form"
@@ -53,7 +53,7 @@ export const Signup = () => {
       noValidate
       autoComplete="off"
     >
-      <Paper elevation={3} sx={{ p: 2, borderRadius: 2, maxWidth: 500, marginTop:'20px', backgroundColor:'#F5F5DC',opacity: 0.9 }}>
+      <Paper elevation={3} sx={{ p: 4, borderRadius: 2, maxWidth: 500, marginTop:'20px', backgroundColor:'#F5F5DC',opacity: 0.9 }}>
         <Typography sx={{ fontSize: 36, fontWeight: 'bold', color: 'black', textAlign: 'center' }} gutterBottom>
           Sign Up
         </Typography>
@@ -134,7 +134,7 @@ export const Signup = () => {
                
             </div>
           <Grid item xs={12} sm={6}>
-          <label style={{fontSize:20 ,color:'gray'}}>Gender:</label>
+          <label style={{fontSize:20 ,color:'gray'}}>Gender: </label>
                 <select name="user_gender"  onChange={handleChange} required>
                     <option value="">Select Gender</option>
                     <option value="Male">Male</option>
